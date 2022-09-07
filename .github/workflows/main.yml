@@ -109,9 +109,10 @@ jobs:
         cluster_name_dev: suribabu
       run: |
         aws eks --region us-east-1 update-kubeconfig --name $cluster_name_dev
-        helm upgrade --recreate-pods -i $release_name $helm_dir
-        export SERVICE_IP=$(kubectl get svc --namespace default $release_name --template "{{ range (index .status.loadBalancer.ingress 0) }}{{.}}{{ end }}")
-        echo http://$SERVICE_IP:80
+        helm upgrade --recreate-pods -i octo-application octo-application
+        #helm upgrade --recreate-pods -i $release_name $helm_dir
+        #export SERVICE_IP=$(kubectl get svc --namespace default $release_name --template "{{ range (index .status.loadBalancer.ingress 0) }}{{.}}{{ end }}")
+        #echo http://$SERVICE_IP:80
          
 
 
