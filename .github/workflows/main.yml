@@ -113,6 +113,35 @@ jobs:
         #helm upgrade --recreate-pods -i $release_name $helm_dir
         #export SERVICE_IP=$(kubectl get svc --namespace default $release_name --template "{{ range (index .status.loadBalancer.ingress 0) }}{{.}}{{ end }}")
         #echo http://$SERVICE_IP:80
-         
+        
+  sonarqube:
+    name: sonarqube
+    needs: Deployment_In_Dev_Environment
+    uses: suribabu8/sonarqube/.github/workflows/build.yml@main
+    secrets:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+#   Deployment_In_Prod_Evironment:
+#     name: Deployment in prod
+#     runs-on: ubuntu-latest
+#     environment: prod
+#     needs: Deployment_In_Dev_Environment       
+#     steps:
+#     - name: Checkout
+#       uses: actions/checkout@v2
+
+#     - name: AWS Login For EKS
+#       uses: aws-actions/configure-aws-credentials@v1 
+#       with:
+#         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}   
+#         aws-region: us-east-1
+    
+#     - name: Deploy into EKS  
+#       id: deploy-image
+#       run: |
+#         aws eks --region us-east-1 update-kubeconfig --name eks_tasks
+#         helm upgrade --recreate-pods -i task 
+       
 
 
